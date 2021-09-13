@@ -1,38 +1,25 @@
-def bestSetRec(args, capacity, currWeight, weight):
-    numOfBars = len(weight)
+import sys
 
-    for index, element in enumerate(weight):
-        weightWithElem = currWeight + element
+capacity = int(sys.argv[1])
+weights = sys.argv[2].split(' ')
 
-        if weightWithElem <= capacity:
-            
-            if weightWithElem > args["bestCapacity"]:
-                args["bestCapacity"] = element + currWeight
+def bagProblem(capacity, weights):
+    possibleCapacities = [1] + [0] * capacity
 
-            if index + 1 < numOfBars:
-                bestSetRec(args, capacity, weightWithElem, weight[(index + 1):])
-        else:
-            return
+    for i in range(len(weights)):
+        possibleCapacities_new = possibleCapacities.copy()
 
-def bestSet(capacity, weights):
-    weights.sort()
-    numOfBars = len(weights)
-    args = {
-        "bestCapacity" : 0
-    }
+        for j in range(len(possibleCapacities)):
+            if possibleCapacities[j - int(weights[i])] == 1:
+                possibleCapacities_new[j] = 1
 
-    for index, element in enumerate(weights):
+        possibleCapacities = possibleCapacities_new
 
-        if element <= capacity:
+    end = len(possibleCapacities) - 1
+    while possibleCapacities[end] != 1:
+        end -= 1
+    
+    return end
 
-            if element > args["bestCapacity"]:
-                args["bestCapacity"] = element
+print(bagProblem(capacity, weights))
 
-            if index + 1 < numOfBars:
-                bestSetRec(args, capacity, element, weights[(index + 1):])
-        else:
-            break
-
-    return args["bestCapacity"]
-
-print(bestSet(19, [5, 7, 1, 20, 4]))
