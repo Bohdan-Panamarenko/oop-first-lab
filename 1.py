@@ -8,4 +8,9 @@ strExp = ""
 for element in exp:
     strExp += element
 
-print(eval(strExp))
+try:
+    print(eval(strExp))
+except ZeroDivisionError:
+    print('Dividision by zero')
+except (SyntaxError, NameError, TypeError, ValueError):
+    print('Invalid expression')

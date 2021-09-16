@@ -21,21 +21,28 @@ unaryOperators = {
     "atan" : atan
 }
 
-binaryFunc = binaryOperators.get(exp[0])
-unaryFunc = unaryOperators.get(exp[0])
-answ = None
 
-if binaryFunc:
-    if exp[1] and exp[2]:
-        answ = binaryFunc(float(exp[1]), float(exp[2]))
-    else:
-        print("Not enough arguments for function {exp[0]}")
-elif unaryFunc:
-    if exp[1]:
+try:
+    binaryFunc = binaryOperators.get(exp[0])
+    unaryFunc = unaryOperators.get(exp[0])
+    argOne = exp[1]
+    answ = None
+
+
+    if binaryFunc:
+        if exp[2]:
+            answ = binaryFunc(float(exp[1]), float(exp[2]))
+    elif unaryFunc:
         answ = unaryFunc(float(exp[1]))
     else:
-        print("Not enough arguments for function {exp[0]}")
-else:
-    print("Unknown function {exp[0]}")
+        print(f"Unknown function: {exp[0]}")
 
-print(answ)
+    if answ:
+        print(answ)
+except ZeroDivisionError:
+    print('division by zero')
+except IndexError:
+    print('not enough arguments')
+except ValueError:
+    print('unvalid value')
+
